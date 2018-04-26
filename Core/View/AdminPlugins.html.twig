@@ -25,6 +25,38 @@
 
 {% extends "Master/MenuTemplate.html.twig" %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        function deleteRecord(formName, action = 'delete') {
+            bootbox.confirm({
+                title: "{{ i18n.trans('confirm-delete')|raw }}",
+                message: "{{ i18n.trans('are-you-sure') }}",
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                        label: "<i class='fa fa-times'></i> {{ i18n.trans('cancel') }}"
+                    },
+                    confirm: {
+                        label: "<i class='fa fa-check'></i> {{ i18n.trans('confirm') }}",
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        execActionForm(action, formName);
+                    }
+                }
+            });
+        }
+        function execActionForm(actionValue, formName) {
+            var form = document.forms[formName];
+            form.action.value = actionValue;
+            form.submit();
+        }
+    </script>
+{% endblock %}
+
 {% block body %}
     {# Calculate texts according to language #}
     {% set refresh = i18n.trans('refresh-page') %}
@@ -102,7 +134,13 @@
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                         <span class="d-none d-sm-inline-block">&nbsp;{{ enable }}</span>
                                     </a>
+                                    {#
                                     <a class="btn btn-sm btn-danger" href="{{ fsc.url() }}?action=remove&amp;plugin={{ plugin.name }}">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                        <span class="d-none d-sm-inline-block">&nbsp;{{ delete }}</span>
+                                    </a>
+                                    #}
+                                    <a class="btn btn-sm btn-danger" href="#" onclick="deleteRecord({{ parentIndexView }})">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                         <span class="d-none d-sm-inline-block">&nbsp;{{ delete }}</span>
                                     </a>
