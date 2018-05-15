@@ -103,12 +103,6 @@ class Controller
      */
     protected $response;
 
-    /**
-     * Name of the file for the template.
-     *
-     * @var string|false nombre_archivo.html.twig
-     */
-    private $template;
 
     /**
      * Title of the page.
@@ -116,7 +110,6 @@ class Controller
      * @var string título de la página.
      */
     public $title;
-
     /**
      * Given uri, default is empty.
      *
